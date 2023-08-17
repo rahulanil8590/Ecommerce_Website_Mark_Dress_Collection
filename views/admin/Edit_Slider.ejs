@@ -21,21 +21,23 @@
                         <div class="card-body">
                             <div class="card-title">Home page Slider Banner Changing</div>
                             <hr>
-                            <form action="/admin/add_slider"   method="POST" enctype="multipart/form-data" >
+                            <form action="/admin/edit_Slider/<%=Slider._id%>"   method="POST" enctype="multipart/form-data" >
+                               
                                 <div class="form-group">
                                     <label for="subHeader">Sub-Heading</label>
                                     <input type="text"  name="subHeader" class="form-control form-control-rounded" id="subHeader"
-                                        placeholder="Enter beautiful Sub-Heading">
+                                       value="<%=Slider.Sub_header %>">
                                 </div>
                                 <div class="form-group">
                                     <label for="mainHeader">Main-Heading</label>
                                     <input type="text" name="mainHeader" class="form-control form-control-rounded"  id="mainHeader"
-                                        placeholder="Enter beautiful Main-Heading">
+                                    value="<%=Slider.Main_header%>">
                                 </div>
 
                                 <div class="form-group">
 
                                     <label for="ImageFile" class="form-label">Upload image</label>
+                                    <img class="card-img-top" style="height: 5rem; width:5rem" src="/images/Slider_Images/<%=Slider.Image_url %>"  id="imageside">
                                     <input type="file" name="ImageFile" class="form-control form-control-rounded "   id="ImageFile">
 
                                 </div>
@@ -46,6 +48,7 @@
                                     <button type="submit" class="btn btn-light btn-round px-5"><i class="icon-lock"></i>
                                         Submit</button>
                                 </div>
+                               
                             </form>
                         </div>
                     </div>

@@ -1,5 +1,7 @@
+const { default: mongoose } = require('mongoose');
 const SliderModel = require('../models/SliderModel') // Adjust the path accordingly to your Slider model
 const Slider_multer = require('../multer/Slider_multer');// Adjust the destination folder as needed
+const { response } = require('express');
 // Add slider
 let Slider = (req,res,next) =>{
    
@@ -10,7 +12,7 @@ let Slider = (req,res,next) =>{
         console.log(error.message);
     }
 }
-const addSliderToMongodb = Slider_multer.single('ImageFile');
+const addSliderImageSavingFile = Slider_multer.single('ImageFile');
 
 const addSlider = async (req, res, next) => {
     try {
@@ -32,9 +34,85 @@ const addSlider = async (req, res, next) => {
         // Handle the error appropriately
     }
 };
+// Display Slider Table
+ const DisplaySlider = (req,res,next)=>{
+    try{
+        SliderModel.find({})
+        .lean()
+        .then(data =>{
+            res.render('admin/Slider_details',{data,title:'Display Slider'})
+        }).catch(error =>{
+            console.log(error.message);
+                res.status(500).send('Error Message Come Get Slider Data.');
+        })
+
+    }catch(error){
+        console.log(error.message);
+    }
+ }
+ // Edit Slider 
+  const EditSlider = async(req,res)=>{
+    try{
+        console.log(req.params.id);
+        let Slider = await SliderModel.findOne({_id:new mongoose.Types.ObjectId(req.params.id)}).lean();
+        console.log(Slider);
+        res.render('admin/Edit_Slider',{ Slider,title:'Edit_Slider'});
+        
+       
+    }catch(error){
+        console.log(error.message);
+    }
+  }
+  const EditedSlider = async(req,res,next)=>{
+    try{
+        console.log(req.params.id);
+        if(req.file){  // check image Upload or not Upload
+            image = req.file.filename
+
+        }else{
+            let SliderImage = SliderModel.findOne({_id:new mongoose.Types.ObjectId(req.params.id)})
+            image = SliderImage.Image_url;
+        }
+         await SliderModel.updateOne({_id:new mongoose.Types.ObjectId(req.params.id)},{ // Update the Slider data
+            Sub_header: req.body.subHeader, 
+            Main_header: req.body.mainHeader,
+            Image_url: image
+        }).then(response =>{
+            res.redirect('/admin/display_slider')
+
+        }).catch(error=>{
+            console.log(error.message);
+                res.status(500).send('Error Message Come to  Slider Updating.');
+        })
+      
+    }catch(error){
+        console.log(error.message);
+    }
+  }
+ // Delete Slider
+  const  deleteSlider = (req,res,next)=>{
+    try{
+        console.log(req.params.id);
+       SliderModel.findOneAndRemove({_id: new mongoose.Types.ObjectId(req.params.id)})
+      .then(response =>{
+        console.log('Succesful deleted');
+        res.redirect('/admin/display_slider')
+      }).catch(error =>{
+        console.log(error.message);
+                res.status(500).send('Error Message Come to  Slider Deleting.');
+      })
+
+    }catch(error){
+        console.log(error.message);
+    }
+  }
 
 module.exports ={
     Slider ,
-    addSliderToMongodb,
-    addSlider
+    addSliderImageSavingFile,
+    addSlider,
+    DisplaySlider,
+    EditSlider,
+    EditedSlider,
+    deleteSlider
 }

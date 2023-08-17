@@ -2999,7 +2999,8 @@ table.grid td {
   min-height: 22px;
   margin-top: 6px;
   margin-bottom: 6px 
-  padding-left: 0px; }
+  padding-left: 0px; 
+}
   [class*="icheck-material"] > label {
     padding-left: 29px !important;
     min-height: 22px;
