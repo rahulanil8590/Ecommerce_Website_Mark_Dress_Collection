@@ -1,21 +1,20 @@
+const BannerModel = require('../models/BannerModel');
 const SliderModel = require('../models/SliderModel');
 
-const GetSlider = (req, res, next) => {
+const LoadHome = async(req, res, next) => {
     try {
-        SliderModel.find({})
-            .lean()
-            .then(data => {
-                res.render('users/Slider', { data, title: 'Home' })
-            })
-            .catch(error => {
-                console.log(error.message);
-                res.status(500).send('Error uploading file.');
-            })
+        const SliderDetails =  await SliderModel.find({}).lean();
+        const Banner =  await BannerModel.find({}).lean()
+        res.render('users/Userhome',{SliderData:SliderDetails,Banner:Banner,title:'Home'})
+        
 
     } catch (error) {
         console.log(error.message);
     }
 }
+ 
 module.exports ={
-    GetSlider
+   LoadHome,
+   
+    
 }

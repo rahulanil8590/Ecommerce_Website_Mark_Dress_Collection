@@ -1,0 +1,94 @@
+<%- include('../layouts/Admin/header.ejs') %>
+<%- include('../partial/admin_header.ejs') %>
+<%- include('../partial/admin_side.ejs') %>
+<!-- start loader -->
+<div id="pageloader-overlay" class="visible incoming">
+    <div class="loader-wrapper-outer">
+        <div class="loader-wrapper-inner">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+<!-- end loader -->
+<div id="wrapper">
+    <div class="clearfix"></div>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-lg-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Home page Slider Banner Changing</div>
+                            <hr>
+                            <form action="/admin/edit_Banner/<%=Banner._id%>"   method="POST" enctype="multipart/form-data" >
+                               
+                                <div class="form-group">
+                                    <label for="subHeader">Sub-Heading</label>
+                                    <input type="text"  name="subHeader" class="form-control form-control-rounded" id="subHeader"
+                                       value="<%=Banner.Sub_header %>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mainHeader">Main-Heading</label>
+                                    <input type="text" name="mainHeader" class="form-control form-control-rounded"  id="mainHeader"
+                                    value="<%=Banner.Main_header%>">
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="ImageFile" class="form-label">Upload image</label>
+                                    <img class="card-img-top" style="height: 5rem; width:5rem" src="/images/Banner/<%=Banner.Image_url %>"  id="imageside">
+                                    <input type="file" name="ImageFile" class="form-control form-control-rounded "   id="ImageFile">
+
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-light btn-round px-5"><i class="icon-lock"></i>
+                                        Submit</button>
+                                </div>
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!--End of row -->
+            	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+          <!--end overlay-->
+        </div>
+        <!-- End container-fluid-->
+    </div><!--End content-wrapper-->
+    <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+    
+    <%- include('../layouts/Admin/Color_switcher.ejs') %> <!-- color switcher Backgroung -->
+    
+</div><!-- end of wrapper -->
+   
+<%- include('../layouts/Admin/footer.ejs') %> <!-- Footer Section of Admin Including -->
+<style>
+    input[type="file"]::file-selector-button {
+    border-radius: 9px;
+    padding: 0 16px;
+    height: 25px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
+    transition: background-color 200ms;
+  }
+  
+  /* file upload button hover state */
+  input[type="file"]::file-selector-button:hover {
+    background-color: #f3f4f6;
+  }
+  
+  /* file upload button active state */
+  input[type="file"]::file-selector-button:active {
+    background-color: #e5e7eb;
+  }
+  </style>

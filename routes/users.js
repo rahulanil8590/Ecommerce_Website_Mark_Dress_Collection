@@ -3,6 +3,6 @@ var router = express.Router();
 const UserController = require('../Controller/usersController');
 
 /* GET home page. */
-router.get('/',UserController.GetSlider);
+router.get('/',UserController.LoadHome);
 
 module.exports = router;
