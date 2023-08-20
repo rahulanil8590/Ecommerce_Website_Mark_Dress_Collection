@@ -1,0 +1,72 @@
+<%- include('../layouts/Admin/header.ejs') %>
+    <%- include('../partial/admin_header.ejs') %>
+        <%- include('../partial/admin_side.ejs') %>
+            <!-- start loader -->
+            <div id="pageloader-overlay" class="visible incoming">
+                <div class="loader-wrapper-outer">
+                    <div class="loader-wrapper-inner">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end loader -->
+            <div id="wrapper">
+                <div class="clearfix"></div>
+
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+                        <div class="row mt-3">
+                            <div class="col-lg-10">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">Insert Category</div>
+                                        <hr>
+                                        <form action="/admin/add_Category" method="POST">
+                                            <div class="form-group">
+                                                <label for="subHeader">Category Name</label>
+                                                <input type="text" name="name"
+                                                    class="form-control form-control-rounded" id="subHeader"
+                                                    placeholder="Enter Category Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="mainHeader">Color</label>
+                                                <input type="text" name="color"
+                                                    class="form-control form-control-rounded" id="mainHeader"
+                                                    placeholder="Enter color code">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="mainHeader">icon</label>
+                                                <input type="text" name="icon"
+                                                    class="form-control form-control-rounded" id="mainHeader"
+                                                    placeholder="Enter icon code ">
+                                            </div>
+
+
+
+
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-light btn-round px-5"><i
+                                                        class="icon-lock"></i>
+                                                    Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--End of row -->
+                        <!--start overlay-->
+                        <div class="overlay toggle-menu"></div>
+                        <!--end overlay-->
+                    </div>
+                    <!-- End container-fluid-->
+                </div><!--End content-wrapper-->
+                <!--Start Back To Top Button-->
+                <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+                <!--End Back To Top Button-->
+
+                <%- include('../layouts/Admin/Color_switcher.ejs') %> <!-- color switcher Backgroung -->
+
+            </div><!-- end of wrapper -->
+
+            <%- include('../layouts/Admin/footer.ejs') %> <!-- Footer Section of Admin Including -->

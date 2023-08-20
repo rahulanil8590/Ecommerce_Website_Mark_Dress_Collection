@@ -4,6 +4,7 @@ var router = express.Router();
 let adminController = require('../Controller/adminController');
 const HomePageSliderController =require('../Controller/HomePageSlider');
 const BannerController = require('../Controller/BannerController');
+const CategoryController = require('../Controller/CategoryController');
 
 /* GET Admin listing. */
 router.get('/', function(req, res, next) {
@@ -29,5 +30,15 @@ router.get('/edit_Banner/:id', BannerController.editBanner);
 router.get('/delete_Banner',BannerController.DeleteBanner)
 // Post Request
 router.post('/add_Banner' ,BannerController.addBannerImageSavingFile, BannerController.add_to_mongodb);
-router.post('/edit_Banner/:id',BannerController.addBannerImageSavingFile,BannerController.UpdateBanner)
+router.post('/edit_Banner/:id',BannerController.addBannerImageSavingFile,BannerController.UpdateBanner);
+//-----Category ------//
+
+// get Request
+router.get('/add_Category',CategoryController.InsertCategory );
+router.get('/View_Category',CategoryController.View_Categories)
+router.get('/edit_Category/:id', CategoryController.EditCategory);
+router.get('/delete_Category/:id',CategoryController.DeleteCategory);
+// Post Request
+router.post('/add_Category' , CategoryController.Insert_Cat_to_mon_db);
+router.post('/edit_Category/:id',CategoryController.UpdateCategory);
 module.exports = router;
