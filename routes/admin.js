@@ -5,6 +5,7 @@ let adminController = require('../Controller/adminController');
 const HomePageSliderController =require('../Controller/HomePageSlider');
 const BannerController = require('../Controller/BannerController');
 const CategoryController = require('../Controller/CategoryController');
+const ProductController = require('../Controller/ProductController');
 
 /* GET Admin listing. */
 router.get('/', function(req, res, next) {
@@ -41,4 +42,13 @@ router.get('/delete_Category/:id',CategoryController.DeleteCategory);
 // Post Request
 router.post('/add_Category' , CategoryController.Insert_Cat_to_mon_db);
 router.post('/edit_Category/:id',CategoryController.UpdateCategory);
+
+// ---Sub_Category------
+// get request
+router.get('/add_Sub_Category',CategoryController.Insert_Sub_Category );
+router.get('/display_Sub_Category',CategoryController.View_Sub_Categories)
+// Post Request
+router.post('/add_Sub_Category' , CategoryController.Insert_Sub_Cat_to_mon_db);
+// ____Product______________
+router.get('/add_Product',ProductController.Insert_Product)
 module.exports = router;
