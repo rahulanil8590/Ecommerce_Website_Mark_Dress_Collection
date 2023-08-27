@@ -1,20 +1,42 @@
 const BannerModel = require('../models/BannerModel');
 const SliderModel = require('../models/SliderModel');
+const ProductModel =require('../models/ProductModel');
+const { default: mongoose } = require('mongoose');
 
 const LoadHome = async(req, res, next) => {
     try {
         const SliderDetails =  await SliderModel.find({}).lean();
         const Banner =  await BannerModel.find({}).lean()
-        res.render('users/Userhome',{SliderData:SliderDetails,Banner:Banner,title:'Home'})
+        const Product = await ProductModel.find({}).select('name  price images ,description')
+        // console.log(Product);
+        res.render('users/Userhome',{SliderData:SliderDetails,Banner:Banner,Product:Product,title:'Home'})
         
 
     } catch (error) {
         console.log(error.message);
     }
 }
+const quick_view = async(req,res,next) =>{
+    try {
+        
+            const productId = req.params.productId;
+          
+            const product = await ProductModel.findById(productId);
+            console.log(product)
+            res.json({ product });
+          } catch (error) {
+            console.log(error.message);
+            res.status(500).send('Internal Server Error');
+          }
+        
+   
+}
+
  
 module.exports ={
    LoadHome,
+   quick_view,
+   
    
     
 }

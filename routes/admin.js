@@ -50,5 +50,10 @@ router.get('/display_Sub_Category',CategoryController.View_Sub_Categories)
 // Post Request
 router.post('/add_Sub_Category' , CategoryController.Insert_Sub_Cat_to_mon_db);
 // ____Product______________
-router.get('/add_Product',ProductController.Insert_Product)
+// get request
+router.get('/add_Product',ProductController.Insert_Product);
+router.get('/View_Product',ProductController.view_product);
+router.get('/Edit_image1/:id',ProductController.Edit_image1)
+// Post Request
+router.post('/add_Product',ProductController.Store_Product_Images,ProductController.Insert_to_product_mon_db)
 module.exports = router;
