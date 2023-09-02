@@ -5,11 +5,13 @@ const { default: mongoose } = require('mongoose');
 
 const LoadHome = async(req, res, next) => {
     try {
+        const User =req.session.user_id
+        const signupUserdata = req.session.userdata
         const SliderDetails =  await SliderModel.find({}).lean();
         const Banner =  await BannerModel.find({}).lean()
         const Product = await ProductModel.find({}).select('name  price images ,description')
         // console.log(Product);
-        res.render('users/Userhome',{SliderData:SliderDetails,Banner:Banner,Product:Product,title:'Home'})
+        res.render('users/Userhome',{SliderData:SliderDetails,Banner:Banner,Product:Product,title:'Home',User,signupUserdata})
         
 
     } catch (error) {

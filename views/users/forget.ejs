@@ -1,0 +1,35 @@
+<%- include('../layouts/Users/header.ejs') %>
+
+	<section class="vh-100 bg-image">
+		<div class="mask d-flex align-items-center h-100 gradient-custom-3">
+			<div class="container  h-full">
+				<div class="row d-flex flex-c align-items-center h-100">
+					<div class="col-12 col-md-9 col-lg-7 col-xl-6">
+						<div class="card m-5" style="border-radius: 15px;">
+							<div class="card-body p-5">
+								<h3 class="card-title text-center  mtext-105 cl2 txt-center p-b-30">Reset password</h3>
+								<% if( typeof message !== 'undefined') {%>
+									<p class="error text-danger m-3"> <%=message %> </p>
+									<%}%>
+								<div class="card-text">
+									<form action="/forget" method="post">
+										<div class="form-group mb-4">
+											<label  class="stext-107 cl7 hov-cl1" for="exampleInputEmail1">Enter your email address and we will send
+												you a link to reset your password.</label>
+											<input type="email" name="email" class="form-control form-control-sm"
+												placeholder="Enter your email address">
+										</div>
+
+										<button type="submit" class="btn btn-primary btn-block">Send password reset
+											email</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- include the footer section of html of User-->
+	<%- include('../layouts/Users/footer.ejs') %>

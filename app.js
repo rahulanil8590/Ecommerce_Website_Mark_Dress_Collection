@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+// for session creating 
+const Secertkey = require('./config/config'); // secret key 
+const session = require('express-session')
 
 
 var app = express();
@@ -17,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({secret:Secertkey.Secertkey,cookie:{maxAge:600000}, saveUninitialized: true,resave: true,}))  
 // mongodb connecting
 const db =require('./config/connection');
 db.connect((err)=>{

@@ -1,7 +1,7 @@
 <!-- include the header section of Html of Users -->
 <%- include('../layouts/Users/header.ejs') %>
     <!-- include the navbar section of Users -->
-    <%- include('../partial/user_header.ejs') %>
+    <%- include('../partial/user_header.ejs',{user:User,SignupUserdata:signupUserdata}) %>
 
         <!-- Slider -->
         <section class="section-slide">
