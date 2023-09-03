@@ -3,6 +3,7 @@ var router = express.Router();
 const UserController = require('../Controller/usersController');
 const ProductController= require('../Controller/ProductController');
 const UserSignupandloginController = require('../Controller/UserSignupandloginController');
+const UserCartController = require('../Controller/UserCartController');
 // for auth middleware 
 const auth = require('../middleware/auth')
 
@@ -28,4 +29,9 @@ router.get('/forget',auth.is_Logout,UserSignupandloginController.loadforgetform)
 router.post('/forget',UserSignupandloginController.VerifyForget)
 router.get('/forget_password/:id',auth.is_Logout,UserSignupandloginController.loadforgetpassword);
 router.post('/forget_password/:id',UserSignupandloginController.Updateforgetpassword);
+//  for Add to cart 
+router.post('/add-to-cart/:id',UserCartController.Add_to_Cart);
+router.get('/Load_cart',auth.is_Login,UserCartController.LoadCart);
+router.post('/Update_quantity',UserCartController.Update_quantity);
+router.post('/remove-cart',UserCartController.RemoveCart)
 module.exports = router;

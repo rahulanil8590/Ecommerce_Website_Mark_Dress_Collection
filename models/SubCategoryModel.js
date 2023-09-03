@@ -9,5 +9,5 @@ const Sub_Category_Schema = new mongoose.Schema({
         require:true
     }
 });
- const Sub_Category_Model = mongoose.model('Sub_category',Sub_Category_Schema);
+ const Sub_Category_Model = mongoose.model('sub_category',Sub_Category_Schema);
  module.exports=Sub_Category_Model

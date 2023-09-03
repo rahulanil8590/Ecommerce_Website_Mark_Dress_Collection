@@ -122,7 +122,7 @@ const sendVerifyMail =(name,email,UserId)=>{
                 if( userdata.is_verified === 0){
                     res.render('users/login',{message:'please verify email '}) 
                 }else{
-                    req.session.user_id = userdata
+                    req.session.user_id = userdata._id
                     console.log( req.session.user_id);
                     
                     res.redirect('/')
