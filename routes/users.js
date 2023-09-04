@@ -12,7 +12,7 @@ const auth = require('../middleware/auth')
 router.get('/',UserController.LoadHome);
 // Quick View Of Product
 router.get('/get-product-details/:productId',UserController.quick_view)
-router.get('/Product_details/:id',ProductController.fetch_Product_Details);
+router.get('/Product_details/:id',auth.is_Login,ProductController.fetch_Product_Details);
 router.post('/add_review/:id',ProductController.addreview);
 // User signup 
 router.get('/SignUp',auth.is_Logout,UserSignupandloginController.Usersignup);
@@ -33,5 +33,7 @@ router.post('/forget_password/:id',UserSignupandloginController.Updateforgetpass
 router.post('/add-to-cart/:id',UserCartController.Add_to_Cart);
 router.get('/Load_cart',auth.is_Login,UserCartController.LoadCart);
 router.post('/Update_quantity',UserCartController.Update_quantity);
-router.post('/remove-cart',UserCartController.RemoveCart)
+router.post('/remove-cart',UserCartController.RemoveCart);
+// for FEtch the Product abd display the shop page to All Product
+router.get('/Shop',ProductController.LoadShop);
 module.exports = router;

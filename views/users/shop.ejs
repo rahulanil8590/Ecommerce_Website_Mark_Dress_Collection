@@ -1,7 +1,7 @@
 <!-- include the header section of Html of Users -->
 <%- include('../layouts/Users/header.ejs') %>
     <!-- include the navbar section of Users -->
-    <%- include('../partial/User_page_header.ejs') %>
+    <%- include('../partial/User_page_header.ejs',{user:User,CartCount:cartcount}) %>
         <!-- product -->
         <section class="bg0 p-t-23 p-b-140">
             <div class="container">

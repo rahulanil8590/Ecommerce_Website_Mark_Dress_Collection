@@ -1,6 +1,70 @@
  const { default: mongoose } = require('mongoose');
 const UserCart = require('../models/UserCart');
-
+  // for quantity increase the price will be increase
+  const totalProductPrice =async (userId,Size,Color)=>{
+    try {
+        const UserId = userId;
+        const size =Size;
+        const color = Color
+        console.log(UserId);
+        console.log('this is total');
+        let total = await UserCart.aggregate([
+            {
+                $match:{
+                    UserId : new mongoose.Types.ObjectId(UserId) 
+                }
+            },
+            {
+                $unwind:'$Products'
+            },
+            {
+                $project:{
+                    item:"$Products.item",
+                    Size:"$Products.Size",
+                    color:"$Products.color",
+                    quantity:"$Products.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:'productmodels',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                  }
+            },
+            {
+                
+                    $project:{
+                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+                    }
+                
+            },
+            
+            {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+                    }
+                
+            }
+            
+        ]);
+        console.log(total);
+        console.log(total[0].total);
+        if (total.length > 0) {
+            // Access the total value from the aggregation result
+            const totalPrice = total[0].total;
+            return totalPrice;
+        } else {
+            // Handle the case where no data was found or total is zero
+            return 0;
+        }
+        
+    } catch (error) {
+      console.log(error.message);  
+    }
+  }
 
  const Add_to_Cart = async(req,res,next)=>{
     try {
@@ -54,6 +118,17 @@ const UserCart = require('../models/UserCart');
  const LoadCart = async(req,res,next)=>{
     try {
         const user = req.session.user_id
+        let cartcount =null;
+        let count =0
+        const Cart = await UserCart.findOne({UserId:user})// for fetch the count of Cart
+        // when checking the User have Cart
+        if(Cart){
+          count = Cart.Products.length
+          console.log(count);
+
+        }
+        cartcount = count
+      
          const CartItem = await UserCart.aggregate([
             {
                 $match:{
@@ -89,7 +164,10 @@ const UserCart = require('../models/UserCart');
 
          ]) 
          console.log(CartItem);
-         res.render('users/Shopping_Cart',{title:'Shopping_cart',CartItems:CartItem});
+         const totalAmount = await totalProductPrice(user);
+         const  totalAmounts =totalAmount.toFixed(2)
+         console.log(totalAmount);
+         res.render('users/Shopping_Cart',{title:'Shopping_cart',CartItems:CartItem,User:user,cartcount,totalAmounts});
         
     } catch (error) {
        console.log(error.message); 
@@ -108,6 +186,7 @@ const UserCart = require('../models/UserCart');
   // for Updating Quantity Plus or minus
   const Update_quantity = async(req,res,next)=>{
     try {
+        
         console.log(req.body);
         const CartId = req.body.cartId;
         const ProId = req.body.proId;
@@ -120,13 +199,14 @@ const UserCart = require('../models/UserCart');
         console.log(quantity);
         console.log(Size);
         console.log(color);
+       
         if(count == -1 && quantity == 1){
             const UpdatedCart =  await UserCart.updateOne({
                  _id: new mongoose.Types.ObjectId(CartId)
             },{
                 $pull:{Products:{$and:[{item: new mongoose.Types.ObjectId(ProId)},{Size:Size},{color:color}]}}
             });
-            console.log(UpdatedCart);
+            
             if(UpdatedCart){
                 res.json({removeProduct: true});
             }
@@ -136,7 +216,7 @@ const UserCart = require('../models/UserCart');
                 
                 if (cart) {
                     let productIndex = cart.Products.findIndex(product => product.item == ProId && product.Size==Size&& product.color==color);
-                    console.log(productIndex);
+                  
                     if (productIndex !== -1) {
                         if (count == -1) {
                             cart.Products[productIndex].quantity -= -count;
@@ -146,7 +226,8 @@ const UserCart = require('../models/UserCart');
                         
                      const  UpdatedCart = await cart.save();
                      if(UpdatedCart){
-                        res.json({status:true})
+                        const totalAmount = totalProductPrice(UserId)
+                        res.json({status:true,totalAmount})
                      }
                        
                     }
@@ -155,60 +236,12 @@ const UserCart = require('../models/UserCart');
                console.log(error.message);
             }
         }
+       
     } catch (error) {
        console.log(error.message); 
     }
   }
-  // for quantity increase the price will be increase
-  const totalProductPrice =async (req,res,next)=>{
-    try {
-        const UserId = req.session.user_id;
-        console.log('this is total');
-        let total = await UserCart.aggregate([
-            {
-                $match:{
-                    UserId : new mongoose.Types.ObjectId(UserId) 
-                }
-            },
-            {
-                $unwind:'$Products'
-            },
-            {
-                $project:{
-                    item:"$Products.item",
-                    Size:"$Products.Size",
-                    color:"$Products.color",
-                    quantity:"$Products.quantity"
-                }
-            },
-            {
-                $lookup:{
-                    from:'productmodels',
-                    localField:'item',
-                    foreignField:'_id',
-                    as:'product'
-                  }
-            },
-            {
-                
-                    $project:{
-                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
-                    }
-                
-            }
-            ,{
-                $group:{
-                    _id:null,
-                    total:{$multiply:['$quantity','$product.price']}
-                }
-            }
-            
-        ])
-        console.log(total);
-    } catch (error) {
-      console.log(error.message);  
-    }
-  }
+
  module.exports ={
     Add_to_Cart,
     LoadCart,

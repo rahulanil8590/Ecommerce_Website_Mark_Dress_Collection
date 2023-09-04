@@ -1,7 +1,7 @@
 <!-- include the header section of Html of Users -->
 <%- include('../layouts/Users/header.ejs') %>
     <!-- include the navbar section of Users -->
-    <%- include('../partial/User_page_header.ejs') %>
+	<%- include('../partial/User_page_header.ejs',{User:user,CartCount:cartcount}) %>
    <!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">

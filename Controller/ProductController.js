@@ -3,6 +3,7 @@ const CategoryModel = require('../models/CategoryModel');
 const Sub_CategoryModel = require('../models/SubCategoryModel');
 const Product_image = require('../multer/Product_multer');
 const { default: mongoose } = require('mongoose');
+const UserCart = require('../models/UserCart');
 
 
 //  insert Product
@@ -73,6 +74,18 @@ const Insert_to_product_mon_db = async (req, res, next) => {
  // User Product Details
  const fetch_Product_Details = async(req,res,next)=>{
     try {
+        const UserId = req.session.user_id;
+        console.log(UserId);
+        let cartcount =null;
+        let count =0
+        const Cart = await UserCart.findOne({UserId:UserId})// for fetch the count of Cart
+        // when checking the User have Cart
+        if(Cart){
+          count = Cart.Products.length
+          console.log(count);
+
+        }
+        cartcount = count
         ProductDetails =await ProductModel.findById(req.params.id);
         const  categoryId = ProductDetails.category;
         const category=  await CategoryModel.find({_id:categoryId})
@@ -80,7 +93,42 @@ const Insert_to_product_mon_db = async (req, res, next) => {
          const sub_category = ProductDetails.product_Category;
         console.log(category);
         console.log(sub_category);
-        res.render('users/Product_Details',{ProductDetails,title:'Product_details'});
+        const CartItem = await UserCart.aggregate([
+            {
+                $match:{
+                    UserId : new mongoose.Types.ObjectId(UserId) 
+                }
+            },
+            {
+                $unwind:'$Products'
+            },
+            {
+                $project:{
+                    item:"$Products.item",
+                    Size:"$Products.Size",
+                    color:"$Products.color",
+                    quantity:"$Products.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:'productmodels',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                  }
+            },
+            {
+                
+                    $project:{
+                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+                    }
+                
+            }
+
+         ]) 
+
+        res.render('users/Product_Details',{ProductDetails,title:'Product_details',user:UserId,cartcount,CartItem:CartItem});
     } catch (error) {
         console.log(error.message);
     }
@@ -93,6 +141,62 @@ const Insert_to_product_mon_db = async (req, res, next) => {
         console.log(error.message);
     }
  }
+ // Fetch the Product and display the product 
+ const LoadShop = async(req,res,next)=>{
+    try {
+        const Product = await ProductModel.find({}).select('name  price images ,description');
+        const user = req.session.user_id
+        let cartcount =null;
+        let count =0
+        const Cart = await UserCart.findOne({UserId:user})// for fetch the count of Cart
+        // when checking the User have Cart
+        if(Cart){
+          count = Cart.Products.length
+          console.log(count);
+
+        }
+        cartcount = count
+      
+         const CartItem = await UserCart.aggregate([
+            {
+                $match:{
+                    UserId : new mongoose.Types.ObjectId(user) 
+                }
+            },
+            {
+                $unwind:'$Products'
+            },
+            {
+                $project:{
+                    item:"$Products.item",
+                    Size:"$Products.Size",
+                    color:"$Products.color",
+                    quantity:"$Products.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:'productmodels',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                  }
+            },
+            {
+                
+                    $project:{
+                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+                    }
+                
+            }
+
+         ]) 
+        res.render('users/shop',{title:'Shop',Product,User:user,cartcount,CartItem})
+
+    } catch (error) {
+        console.log(error.message);
+    }
+ }
 module.exports = {
     Insert_Product,
     Insert_to_product_mon_db,
@@ -100,6 +204,7 @@ module.exports = {
     view_product,
     Edit_image1,
     fetch_Product_Details,
-    addreview
+    addreview,
+    LoadShop
   
 }
