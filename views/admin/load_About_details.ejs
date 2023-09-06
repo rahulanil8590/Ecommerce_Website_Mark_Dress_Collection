@@ -1,0 +1,77 @@
+<!-- View Banner -->
+<%- include('../layouts/Admin/header.ejs') %><!-- Admin Header -->
+  <%- include('../partial/admin_header.ejs') %><!-- admin navbar -->
+    <%- include('../partial/admin_side.ejs') %><!-- Admin Side Bar -->
+      <div class="clearfix"></div>
+
+      <div class="content-wrapper">
+        <div class="container-fluid">
+          <div class="content-wrapper">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Banner</h5>
+                      <div class="table-responsive">
+                        <div class="col-lg-12">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">All Details</h5>
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">No</th>
+                                      <th scope="col">Title1</th>
+                                      <th scope="col">Title1</th>
+                                      <th scope="col">Thought</th>
+                                      <th scope="col">Image1</th>
+                                      <th scope="col">Image2</th>
+                                      <th scope="col">Option</th>
+                                      <th scope="col"></th>
+
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% Data.forEach(function(item) { %>
+                                      <tr>
+                                        <th scope="row">1</th>
+                                        <td>
+                                          <%=item.title1%>
+                                        </td>
+                                        <td>
+                                            <%=item.title2%>
+                                          </td>
+                                          <td>
+                                            <%=item.Thought%>
+                                          </td>
+                                        <td><img style="width: 100px; height:100px ;"
+                                            src="/images/About_Images/<%=item.images[0]%>" alt="Slider_Image"></td>
+                                            <td><img style="width: 100px; height:100px ;"
+                                                src="/images/About_Images/<%=item.images[1]%>" alt="Slider_Image"></td>
+                                        <td><a href="/admin/Edit_About/<%=item._id%>" class="btn  btn-warning">edit</a>
+                                        </td>
+                                        <td><a href="/admin/delete_About/<%=item._id%>" class="btn  btn-danger"
+                                            onclick="return confirm('  you want Delete this Slider Image and titles ?')">Delete</a>
+                                        </td>
+                                      </tr>
+
+                                      <% }); %>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--End Row-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%- include('../layouts/Admin/Color_switcher.ejs') %> <!-- color switcher Backgroung -->
+      <%- include('../layouts/Admin/footer.ejs') %> <!-- Footer Section of Admin Including -->

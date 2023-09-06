@@ -7,6 +7,7 @@ const BannerController = require('../Controller/BannerController');
 const CategoryController = require('../Controller/CategoryController');
 const ProductController = require('../Controller/ProductController');
 const BlogController = require('../Controller/BlogController');
+const AboutController = require('../Controller/AboutController');
 
 /* GET Admin listing. */
 router.get('/', function(req, res, next) {
@@ -66,4 +67,13 @@ router.get('/delete_Blog/:id',BlogController.DeleteBlog)
 // Post Request
 router.post('/add_Blog',BlogController.addBlogImageSavingFile,BlogController.Inset_Blog_Data);
 router.post('/Edit_Blog/:id',BlogController.UpdateBlog);
+// For fetching  About data
+// Get request
+router.get('/add_about',AboutController.LoadAboutFormPage);
+router.get('/View_about',AboutController.Load_Display_About);
+router.get('/Edit_About/:id',AboutController.editAbout);
+router.get('/delete_About/:id',AboutController.DeleteAbout)
+// Post Request
+router.post('/add_about',AboutController.addAboutImageSavingFile,AboutController.Inset_About_Data);
+router.post('/Edit_About/:id',AboutController.UpdateAbout);
 module.exports = router;

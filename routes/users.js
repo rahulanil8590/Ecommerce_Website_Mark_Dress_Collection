@@ -6,6 +6,7 @@ const UserSignupandloginController = require('../Controller/UserSignupandloginCo
 const UserCartController = require('../Controller/UserCartController');
 const WishlistController = require('../Controller/WishlistController');
 const BlogController = require('../Controller/BlogController');
+const AboutController = require('../Controller/AboutController');
 // for auth middleware 
 const auth = require('../middleware/auth')
 
@@ -43,4 +44,6 @@ router.get('/Shop',ProductController.LoadShop);
 // For Blog Page
 router.get('/blog',auth.is_Login,BlogController.LoadBlog);
 router.get('/blog_detail/:id',auth.is_Login,BlogController.LoadBlogdetailed);
+// For About Page 
+router.get('/about',AboutController.LoadAbout);
 module.exports = router;

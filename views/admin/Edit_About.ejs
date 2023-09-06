@@ -1,0 +1,116 @@
+<!-- Edit Banner -->
+<%- include('../layouts/Admin/header.ejs') %><!-- Admin Header -->
+<%- include('../partial/admin_header.ejs') %><!-- admin navbar -->
+<%- include('../partial/admin_side.ejs') %><!-- Admin Side Bar -->
+    <div class="clearfix"></div>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-lg-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Home page Slider Banner Changing</div>
+                            <hr>
+                            <form action="/admin/Edit_About/<%=Aboutdata._id%>"   method="POST" enctype="multipart/form-data" >
+                               
+                                <div class="form-group">
+                                    <label for="input-6">Title1</label>
+                                    <input type="text" name="title" class="form-control form-control-rounded"
+                                        id="input-6" placeholder="Enter Product Name" value="<%=Aboutdata.title1 %>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-6">Title1</label>
+                                    <input type="text" name="title" class="form-control form-control-rounded"
+                                        id="input-6" placeholder="Enter Product Name" value="<%=Aboutdata.title2 %>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1"> Description para 1 </label>
+                                    <textarea name="para1" class="form-control form-control-rounded"
+                                        id="exampleFormControlTextarea1" rows="3"
+                                        placeholder="Enter Blog Description"><%=Aboutdata.Para1 %></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1"> Description para 2 </label>
+                                    <textarea name="para2" class="form-control form-control-rounded"
+                                        id="exampleFormControlTextarea1" rows="3"
+                                        placeholder="Enter  Blog Description"><%=Aboutdata.para2 %></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1"> Description para 3 </label>
+                                    <textarea name="para3" class="form-control form-control-rounded"
+                                        id="exampleFormControlTextarea1" rows="3"
+                                        placeholder="Enter  Blog Description"><%=Aboutdata.para3 %></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1"> Description para 4 </label>
+                                    <textarea name="para4" class="form-control form-control-rounded"
+                                        id="exampleFormControlTextarea1" rows="3"
+                                        placeholder="Enter  Blog Description"><%=Aboutdata.para4 %></textarea>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="ImageFile" class="form-label">Upload  Image</label>
+                                    <img class="card-img-top" style="height: 5rem; width:5rem" src="/images/About_Images/<%=Aboutdata.images[0]%>"  id="imageside">
+                                    <img class="card-img-top" style="height: 5rem; width:5rem" src="/images/About_Images/<%=Aboutdata.images[1]%>"  id="imageside">
+                                    <input type="file" name="AboutImages" class="form-control form-control-rounded "
+                                            id="formFile" multiple>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Thought </label>
+                                    <textarea name="Thought" class="form-control form-control-rounded"
+                                        id="exampleFormControlTextarea1" rows="3"
+                                        placeholder="Enter  Blog Description"><%=Aboutdata.Thought %></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-light btn-round px-5"><i class="icon-lock"></i>
+                                        Submit</button>
+                                </div>
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!--End of row -->
+            	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+          <!--end overlay-->
+        </div>
+        <!-- End container-fluid-->
+    </div><!--End content-wrapper-->
+    <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+    
+    <%- include('../layouts/Admin/Color_switcher.ejs') %> <!-- color switcher Backgroung -->
+    
+
+   
+<%- include('../layouts/Admin/footer.ejs') %> <!-- Footer Section of Admin Including -->
+<style>
+    input[type="file"]::file-selector-button {
+    border-radius: 9px;
+    padding: 0 16px;
+    height: 25px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
+    transition: background-color 200ms;
+  }
+  
+  /* file upload button hover state */
+  input[type="file"]::file-selector-button:hover {
+    background-color: #f3f4f6;
+  }
+  
+  /* file upload button active state */
+  input[type="file"]::file-selector-button:active {
+    background-color: #e5e7eb;
+  }
+  </style>
