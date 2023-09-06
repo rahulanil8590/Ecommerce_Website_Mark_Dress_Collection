@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt'); //  bcrypt library add to hash password to sec
 const nodemailer = require('nodemailer'); // for send the mail to verify the signup
 const randomString = require('randomstring');// for forget password to uniquenest 
 const config = require('../config/config');
-
-
+const UserCart = require('../models/UserCart');
+const mongoose = require('mongoose');
+const User_multer = require('../multer/User_image_multer');
+const ProductModel =require('../models/ProductModel');
 // for send mail 
 const sendVerifyMail =(name,email,UserId)=>{
     try {
@@ -247,6 +249,179 @@ const sendresetVerify =(name,email,token)=>{
         console.log(error.message);
     }
  }
+ const loadAccount = async(req,res,next)=>{
+    try {
+        const UserId = req.session.user_id;
+        console.log(UserId);
+        // for count of Product in Cart
+        let cartcount =null;
+        let count =0
+        const Cart = await UserCart.findOne({UserId:UserId})// for fetch the count of Cart
+        // when checking the User have Cart
+        if(Cart){
+          count = Cart.Products.length
+          console.log(count);
+
+        }
+        cartcount = count
+    // for fetch the  shopping cart fetch to modal
+        const CartItem = await UserCart.aggregate([
+            {
+                $match:{
+                    UserId : new mongoose.Types.ObjectId(UserId) 
+                }
+            },
+            {
+                $unwind:'$Products'
+            },
+            {
+                $project:{
+                    item:"$Products.item",
+                    Size:"$Products.Size",
+                    color:"$Products.color",
+                    quantity:"$Products.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:'productmodels',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                  }
+            },
+            {
+                
+                    $project:{
+                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+                    }
+                
+            }
+
+         ]);
+         // for Fetch User details 
+         const UserData = await UserModel.findOne({_id:new mongoose.Types.ObjectId(UserId)});
+         console.log(UserData);
+         // for Featured Image 
+         const FeaturedProduct = await ProductModel.find({isFeatured:'true'}).limit(2)
+    console.log(FeaturedProduct);
+        res.render('users/User_account',
+        {
+        title:'My Account',
+         User:UserId,
+         cartcount,
+         CartItems:CartItem,
+         Data:UserData,
+         FeaturedProducts:FeaturedProduct
+         
+        })
+    } catch (error) {
+      console.log(error.message);  
+    }
+ }
+ const EditAccount = async(req,res,next)=>{
+    try {
+        const UserId = req.params.id
+        console.log(UserId);
+        // for count of Product in Cart
+        let cartcount =null;
+        let count =0
+        const Cart = await UserCart.findOne({UserId:UserId})// for fetch the count of Cart
+        // when checking the User have Cart
+        if(Cart){
+          count = Cart.Products.length
+          console.log(count);
+
+        }
+        cartcount = count
+    // for fetch the  shopping cart fetch to modal
+        const CartItem = await UserCart.aggregate([
+            {
+                $match:{
+                    UserId : new mongoose.Types.ObjectId(UserId) 
+                }
+            },
+            {
+                $unwind:'$Products'
+            },
+            {
+                $project:{
+                    item:"$Products.item",
+                    Size:"$Products.Size",
+                    color:"$Products.color",
+                    quantity:"$Products.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:'productmodels',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                  }
+            },
+            {
+                
+                    $project:{
+                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+                    }
+                
+            }
+
+         ]);
+         // for Fetch User details 
+         const UserData = await UserModel.findOne({_id:new mongoose.Types.ObjectId(UserId)});
+         console.log(UserData);
+        res.render('users/Edit_Account',
+        {
+        title:'Edit Account',
+         User:UserId,
+         cartcount,
+         CartItems:CartItem,
+         Data:UserData
+        
+         
+        })
+    } catch (error) {
+      console.log(error.message);  
+    }
+ }
+ // for Upload Image using Multer 
+ const InsertUserImage = User_multer.single('Image')
+
+ // for Update the User Account
+ const UpdatedAccount = async(req,res,next)=>{
+    try{
+        if(req.file){
+             image = req.file.filename
+        }else{
+            console.log('image');
+           let UserImage = await UserModel.findOne({_id: new mongoose.Types.ObjectId(req.params.id)});
+           image = UserImage.Image;
+        }
+        console.log(req.body);
+        UserModel.updateOne({_id:new mongoose.Types.ObjectId(req.params.id)},{
+            name: req.body.name, 
+            Email: req.body.email,
+            Phone:req.body.phonenum,
+            Mobile:req.body.mobilenum,
+            Address:req.body.address,
+            Image: image ,
+
+
+        }).then(response =>{
+            res.redirect('/User_account')
+        }).catch(error =>{
+            console.log(error.message);
+            res.status(500).send('Error Message Come to update Banner Will be failed.');
+            
+        })
+       
+    }catch(error){
+        console.log(error.message);
+
+    }
+  }
  module.exports = {
     Usersignup,
     addtoMongUsersignup,
@@ -257,5 +432,9 @@ const sendresetVerify =(name,email,token)=>{
     loadforgetform,
     VerifyForget,
     loadforgetpassword,
-    Updateforgetpassword
+    Updateforgetpassword,
+    loadAccount,
+    EditAccount,
+    InsertUserImage,
+    UpdatedAccount
  }

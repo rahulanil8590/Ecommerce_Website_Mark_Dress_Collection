@@ -38,12 +38,17 @@ router.get('/Load_cart',auth.is_Login,UserCartController.LoadCart);
 router.post('/Update_quantity',UserCartController.Update_quantity);
 router.post('/remove-cart',UserCartController.RemoveCart);
 // for FEtch the Product abd display the shop page to All Product
-router.get('/Shop',ProductController.LoadShop);
+router.get('/Shop',auth.is_Login,ProductController.LoadShop);
 // for add and fetch the wishlist
 // 
 // For Blog Page
 router.get('/blog',auth.is_Login,BlogController.LoadBlog);
 router.get('/blog_detail/:id',auth.is_Login,BlogController.LoadBlogdetailed);
 // For About Page 
-router.get('/about',AboutController.LoadAbout);
+router.get('/about',auth.is_Login,AboutController.LoadAbout);
+// For Account details of User
+router.get('/User_account',auth.is_Login,UserSignupandloginController.loadAccount);
+router.get('/edit_user/:id',auth.is_Login,UserSignupandloginController.EditAccount);
+router.post('/edit_user/:id',UserSignupandloginController.InsertUserImage,UserSignupandloginController.UpdatedAccount)
+
 module.exports = router;

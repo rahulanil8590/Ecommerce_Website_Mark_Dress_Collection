@@ -23,6 +23,22 @@ const UserSchema= new mongoose.Schema({
     token:{
         type:String,
         default:''
+    },
+    Image:{
+        type:String,
+        default:''
+    },
+    Mobile:{
+        type:Number,
+        default:'' 
+    },
+    Address:{
+        type:String,
+        default:'' 
+    },
+    Phone:{
+        type:Number,
+        default:''  
     }
 });
 const UserModel = mongoose.model('usermodel',UserSchema);

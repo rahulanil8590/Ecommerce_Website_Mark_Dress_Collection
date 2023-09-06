@@ -14,28 +14,33 @@
 							Help & FAQs
 						</a>
 
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							My Account
-						</a>
-
 						<% if(user ){%>
-							<a href="/logout" class="flex-c-m trans-04 p-lr-25">
-								Logout
+							<a href="/User_account" class="flex-c-m trans-04 p-lr-25 ">
+								My Account
 							</a>
 							<%} else { %>
-								<a href="/login" class="flex-c-m trans-04 p-lr-25">
-									Login
-								</a>
-	
+		
 								<% } %>
-								<% if(user ){%>
-									
-									<%} else { %>
-										<a href="/SignUp" class="flex-c-m trans-04 p-lr-25">
-											SignUp
-										</a>
-			
-										<% } %>
+							<% if(user ){%>
+								<a href="/logout" class="flex-c-m trans-04 p-lr-25">
+									Logout
+								</a>
+								<%} else { %>
+									<a href="/login" class="flex-c-m trans-04 p-lr-25">
+										Login
+									</a>
+		
+									<% } %>
+		
+		
+									<% if(user ){%>
+									   
+										<%} else { %>
+											<a href="/SignUp" class="flex-c-m trans-04 p-lr-25">
+												signup
+											</a>
+				
+											<% } %>
 
 						
 					</div>
@@ -71,11 +76,11 @@
 							</li>
 
 							<li>
-								<a href="about.html">About</a>
+								<a href="/about">About</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								<a href="/Contact">Contact</a>
 							</li>
 						</ul>
 					</div>	
@@ -144,28 +149,33 @@
 							Help & FAQs
 						</a>
 
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							My Account
-						</a>
-
 						<% if(user ){%>
-							<a href="/logout" class="flex-c-m trans-04 p-lr-25">
-								Logout
+							<a href="/User_account" class="flex-c-m trans-04 p-lr-25 ">
+								My Account
 							</a>
 							<%} else { %>
-								<a href="/login" class="flex-c-m trans-04 p-lr-25">
-									Login
-								</a>
-	
+		
 								<% } %>
-								<% if(user ){%>
-									
-									<%} else { %>
-										<a href="/SignUp" class="flex-c-m trans-04 p-lr-25">
-											SignUp
-										</a>
-			
-										<% } %>
+							<% if(user ){%>
+								<a href="/logout" class="flex-c-m trans-04 p-lr-25">
+									Logout
+								</a>
+								<%} else { %>
+									<a href="/login" class="flex-c-m trans-04 p-lr-25">
+										Login
+									</a>
+		
+									<% } %>
+		
+		
+									<% if(user ){%>
+									   
+										<%} else { %>
+											<a href="/SignUp" class="flex-c-m trans-04 p-lr-25">
+												signup
+											</a>
+				
+											<% } %>
 					</div>
 				</li>
 			</ul>
@@ -192,11 +202,11 @@
 				</li>
 
 				<li>
-					<a href="about.html">About</a>
+					<a href="/about">About</a>
 				</li>
 
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="/Contact">Contact</a>
 				</li>
 			</ul>
 		</div>
