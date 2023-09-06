@@ -4,6 +4,8 @@ const UserController = require('../Controller/usersController');
 const ProductController= require('../Controller/ProductController');
 const UserSignupandloginController = require('../Controller/UserSignupandloginController');
 const UserCartController = require('../Controller/UserCartController');
+const WishlistController = require('../Controller/WishlistController');
+const BlogController = require('../Controller/BlogController');
 // for auth middleware 
 const auth = require('../middleware/auth')
 
@@ -36,4 +38,9 @@ router.post('/Update_quantity',UserCartController.Update_quantity);
 router.post('/remove-cart',UserCartController.RemoveCart);
 // for FEtch the Product abd display the shop page to All Product
 router.get('/Shop',ProductController.LoadShop);
+// for add and fetch the wishlist
+// 
+// For Blog Page
+router.get('/blog',auth.is_Login,BlogController.LoadBlog);
+router.get('/blog_detail/:id',auth.is_Login,BlogController.LoadBlogdetailed);
 module.exports = router;

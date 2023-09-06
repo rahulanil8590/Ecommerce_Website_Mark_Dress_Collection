@@ -418,7 +418,7 @@
                                     </div>
         
                                     <div class="block2-txt-child2 flex-r p-t-3">
-                                        <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                        <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"onclick="addtoWishlist('<%=item._id%>')">
                                             <img class="icon-heart1 dis-block trans-04" src="/images/icons/icon-heart-01.png" alt="ICON">
                                             <img class="icon-heart2 dis-block trans-04 ab-t-l" src="/images/icons/icon-heart-02.png" alt="ICON">
                                         </a>
@@ -501,3 +501,33 @@
     });
  });
       </script>
+<script>
+    function addtoWishlist(ProId){
+      
+   
+   
+       $.ajax({
+           url:'/add-to-wishlist/'+ProId,
+           method:'POST',
+           
+           success:(response)=>{
+               if(response.status){
+                   let count = parseInt($('#wishlist-badge').data('notify'));
+                   console.log(count);
+                   // Increment the count
+                   count = count + 1;
+           
+                   // Update the cart badge count
+                   $('#wishlist-badge').data('notify', count);
+           
+                   // Update the text inside the badge with the new count
+                   $('#wishlist-badge').text(count);
+           
+                   console.log('Cart count:', count);
+   
+   
+               }
+           }
+       })
+   }
+               </script>

@@ -6,6 +6,7 @@ const HomePageSliderController =require('../Controller/HomePageSlider');
 const BannerController = require('../Controller/BannerController');
 const CategoryController = require('../Controller/CategoryController');
 const ProductController = require('../Controller/ProductController');
+const BlogController = require('../Controller/BlogController');
 
 /* GET Admin listing. */
 router.get('/', function(req, res, next) {
@@ -53,7 +54,16 @@ router.post('/add_Sub_Category' , CategoryController.Insert_Sub_Cat_to_mon_db);
 // get request
 router.get('/add_Product',ProductController.Insert_Product);
 router.get('/View_Product',ProductController.view_product);
-router.get('/Edit_image1/:id',ProductController.Edit_image1)
+router.get('/Edit_image1/:id',ProductController.Edit_image1);
 // Post Request
-router.post('/add_Product',ProductController.Store_Product_Images,ProductController.Insert_to_product_mon_db)
+router.post('/add_Product',ProductController.Store_Product_Images,ProductController.Insert_to_product_mon_db);
+// For fetching  Blog data
+// Get request
+router.get('/add_Blog',BlogController.LoadBlogFormPage);
+router.get('/View_Blog',BlogController.Load_Display_Blog);
+router.get('/Edit_Blog/:id',BlogController.editBlog);
+router.get('/delete_Blog/:id',BlogController.DeleteBlog)
+// Post Request
+router.post('/add_Blog',BlogController.addBlogImageSavingFile,BlogController.Inset_Blog_Data);
+router.post('/Edit_Blog/:id',BlogController.UpdateBlog);
 module.exports = router;

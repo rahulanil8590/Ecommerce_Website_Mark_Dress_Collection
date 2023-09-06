@@ -3,6 +3,7 @@ const SliderModel = require('../models/SliderModel');
 const ProductModel =require('../models/ProductModel');
 const { default: mongoose } = require('mongoose');
 const UserCart = require('../models/UserCart');
+const wishlist =require('../models/Wishlistmodel');
 
 
 
@@ -60,9 +61,20 @@ const LoadHome = async(req, res, next) => {
               }
   
            ]) 
-
+          
+           
         // console.log(Product);
-        res.render('users/Userhome',{SliderData:SliderDetails,Banner:Banner,Product:Product,title:'Home',User,signupUserdata,cartcount,CartItem:CartItem})
+        res.render('users/Userhome',{
+            SliderData:SliderDetails,
+            Banner:Banner,
+            Product:Product,
+            title:'Home',
+            User,
+            signupUserdata,
+            cartcount,
+            CartItem:CartItem,
+           
+        })
         
 
     } catch (error) {
