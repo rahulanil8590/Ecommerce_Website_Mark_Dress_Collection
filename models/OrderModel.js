@@ -1,0 +1,70 @@
+const mongoose = require('mongoose');
+const OrderSchema =  new mongoose.Schema({
+    first_name:{
+        type:String,
+        require:true
+    },
+    last_name:{
+        type:String,
+        require:true
+    },
+    email:{
+        type:String,
+        require:true
+    },
+    contact:{
+        type:String,
+        require:true
+    },
+   ShippingAddress1:{
+        type:String,
+        require:true
+    },
+    ShippingAddress2:{
+        type:String,
+        require:true
+    },
+   City:{
+        type:String,
+        require:true
+    },
+    State:{
+        type:String,
+        require:true
+    },
+    Zip_code:{
+        type:String,
+        require:true
+    },
+   Country:{
+    type:String,
+    require:true
+    },
+    Status:{
+        type:String,
+        require:true
+    },
+    dateCreated:{
+        type:Date,
+        default:Date.now
+    },
+    products:{
+        type:Array,
+        require:true
+    },
+    UserId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"usermodels",
+        require:true
+    },
+    Payment_Method:{
+        type:String,
+        require:true
+    },
+    TotalAmount:{
+        type:Number,
+        require:true
+    }
+});
+const OrderModel = mongoose.model('ordermodels',OrderSchema);
+module.exports = OrderModel;

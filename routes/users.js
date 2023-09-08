@@ -7,6 +7,8 @@ const UserCartController = require('../Controller/UserCartController');
 const WishlistController = require('../Controller/WishlistController');
 const BlogController = require('../Controller/BlogController');
 const AboutController = require('../Controller/AboutController');
+const ContactController =require('../Controller/ContactController');
+const OrderController = require('../Controller/OrderController');
 // for auth middleware 
 const auth = require('../middleware/auth')
 
@@ -49,6 +51,18 @@ router.get('/about',auth.is_Login,AboutController.LoadAbout);
 // For Account details of User
 router.get('/User_account',auth.is_Login,UserSignupandloginController.loadAccount);
 router.get('/edit_user/:id',auth.is_Login,UserSignupandloginController.EditAccount);
-router.post('/edit_user/:id',UserSignupandloginController.InsertUserImage,UserSignupandloginController.UpdatedAccount)
+router.post('/edit_user/:id',UserSignupandloginController.InsertUserImage,UserSignupandloginController.UpdatedAccount);
+// for Contact Page
+router.get('/Contact',auth.is_Login,ContactController.LoadContact);
+router.post('/Contant',ContactController.SendMesageFromUser);
+// for Load more api Fetch all product;
+router.get('/load_More',auth.is_Login,UserController.load_More);
+// for Order Section 
+router.get('/order',OrderController.Load_Order_Form);
+router.post('/place-order',OrderController.Orderplacing);
+router.get('/success-banner',OrderController.LoadSuccesBanner);
+router.post('/verify-payment',OrderController.verifyPayment)
+router.get('/Order_Page',OrderController.loadOrderPage)
+
 
 module.exports = router;
