@@ -28,6 +28,8 @@ router.post('/reset-password',adminController.Verify_mail_Reset_password)
 router.get('/forget_password/:id',adminController.loadforgetpassword);
 router.post('/forget_password/:id',adminController.Updateforgetpassword);
 router.get('/logout',adminController.adminlogout);
+// For Calender
+router.get('/calendar',DashBoardController.LoadCalendar)
 
 // Slider Section 
 // get Request

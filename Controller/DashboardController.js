@@ -149,9 +149,26 @@ const getOrderProducts =async(req,res,next)=>{
         console.log(error.message);
     }
 }
+// for Calender 
+const LoadCalendar = async(req,res,next)=>{
+    try {
+        const isadmin =  req.session.admin_id;
+        // for fetch the Admin Details 
+ const Data = await UserModel.findOne({_id:isadmin});
+        res.render('admin/calendar',{
+            title:'calendar',
+            Isadmin:isadmin,
+            Data
+
+        })
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 module.exports={
     LoadDashboard,
     UpdateOrderShipped,
     getOrderProducts,
+    LoadCalendar
    
 }
