@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer'); // for send the mail to verify the sig
 const randomString = require('randomstring');// for forget password to uniquenest 
 const config = require('../config/config');
 const mongoose = require('mongoose');
+const User_multer = require('../multer/User_image_multer');
 const LoadLogin = (req,res,next)=>{
     try {
         res.render('admin/login',{title:'Login'})
@@ -159,6 +160,57 @@ const loadforgetpassword =async(req,res,next)=>{
         console.log(error.message);
     }
  }
+ // for Profile admin
+ const LoadProfile = async(req,res,next)=>{
+    try {
+        const isadmin =  req.session.admin_id;
+        // for fetch the Admin Details 
+ const Data = await UserModel.findOne({_id:isadmin});
+        res.render('admin/profile',{
+            title:'Profile',
+            Isadmin:isadmin,
+            Data
+        });
+    } catch (error) {
+       console.log(error.message); 
+    }
+ }
+ // for Upload Image using Multer 
+ const InsertUserImage = User_multer.single('Image')
+
+ // for Update the User Account
+ const UpdatedProfile = async(req,res,next)=>{
+    try{
+        if(req.file){
+             image = req.file.filename
+        }else{
+            console.log('image');
+           let UserImage = await UserModel.findOne({_id: new mongoose.Types.ObjectId(req.params.id)});
+           image = UserImage.Image;
+        }
+        console.log(req.body);
+        UserModel.updateOne({_id:new mongoose.Types.ObjectId(req.params.id)},{
+            name: req.body.name, 
+            Email: req.body.email,
+            Phone:req.body.phone,
+            Mobile:req.body.mob,
+            Address:req.body.address,
+            Image: image ,
+
+
+        }).then(response =>{
+            res.redirect('/admin/profile')
+        }).catch(error =>{
+            console.log(error.message);
+            res.status(500).send('Error Message Come to update Banner Will be failed.');
+            
+        })
+       
+    }catch(error){
+        console.log(error.message);
+
+    }
+  }
 module.exports={
     LoadLogin,
     VerifyLogin,
@@ -166,5 +218,8 @@ module.exports={
     Verify_mail_Reset_password ,
     loadforgetpassword,
     Updateforgetpassword,
-    adminlogout
+    adminlogout,
+    LoadProfile,
+    InsertUserImage,
+    UpdatedProfile
 }

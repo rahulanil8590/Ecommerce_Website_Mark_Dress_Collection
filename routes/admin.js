@@ -29,7 +29,11 @@ router.get('/forget_password/:id',adminController.loadforgetpassword);
 router.post('/forget_password/:id',adminController.Updateforgetpassword);
 router.get('/logout',adminController.adminlogout);
 // For Calender
-router.get('/calendar',DashBoardController.LoadCalendar)
+router.get('/calendar',isAdmin.is_Login,DashBoardController.LoadCalendar);
+// for Admin Profile
+router.get('/profile',isAdmin.is_Login,adminController.LoadProfile);
+// for Update Admin Details in Mongodb
+router.post('/Update_Admin_Details/:id',adminController.InsertUserImage,adminController.UpdatedProfile)
 
 // Slider Section 
 // get Request
