@@ -13,7 +13,8 @@ const LoadHome = async(req, res, next) => {
         const signupUserdata = req.session.userdata
         const SliderDetails =  await SliderModel.find({}).lean();
         const Banner =  await BannerModel.find({}).lean()
-        const Product = await ProductModel.find({}).select('name  price images ,description').limit(2)
+        const Product = await ProductModel.find({}).populate('category').limit(3)
+        console.log(Product);
         let cartcount =null;
         let count =0
         const Cart = await UserCart.findOne({UserId:User})// for fetch the count of Cart

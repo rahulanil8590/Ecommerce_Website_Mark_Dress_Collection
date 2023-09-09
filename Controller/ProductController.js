@@ -9,9 +9,11 @@ const UserCart = require('../models/UserCart');
 //  insert Product
 const Insert_Product = async (req, res, next) => {
     try {
+         // for session details
+       const isadmin =  req.session.admin_id;
         const Category = await CategoryModel.find({}).lean();
         const Sub_Category = await Sub_CategoryModel.find({}).lean()
-        res.render('admin/Insert_Product', { Category, Sub_Category, title: "Insert_product" })
+        res.render('admin/Insert_Product', { Category, Sub_Category, title: "Insert_product" ,Isadmin:isadmin })
     } catch (error) {
         console.log(error.message);
     }
@@ -19,7 +21,9 @@ const Insert_Product = async (req, res, next) => {
 
 const Store_Product_Images = Product_image.array('gallery', 4);
 const Insert_to_product_mon_db = async (req, res, next) => {
-    try {
+    try { 
+          // for session details
+       const isadmin =  req.session.admin_id;
         console.log(req.body);
         const Category = await CategoryModel.find({ _id: req.body.category });
         const Sub_Category = await Sub_CategoryModel.find({ _id: req.body.pro_cat });
@@ -55,8 +59,9 @@ const Insert_to_product_mon_db = async (req, res, next) => {
 }
  const view_product = async(req,res,next)=>{
     try {
+        const isadmin =  req.session.admin_id;
      const ProductDetails =  await ProductModel.find({}).lean()
-        res.render('admin/View_Product',{data:ProductDetails,title:'View_product'})
+        res.render('admin/View_Product',{data:ProductDetails,title:'View_product',Isadmin:isadmin})
     } catch (error) {
         console.log(error.message);
     }

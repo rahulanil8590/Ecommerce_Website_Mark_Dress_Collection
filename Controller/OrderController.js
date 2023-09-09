@@ -181,7 +181,7 @@ const Orderplacing = async(req,res,next)=>{
                 State:req.body.state,
                 Zip_code:req.body.pincode,
                 Country:req.body.country,
-                PaymentMethod:req.body['payment-method'],
+                Payment_Method:req.body['payment-method'],
                 Status:status,
                 products:Products,
                 UserId:user,
@@ -252,8 +252,9 @@ const LoadSuccesBanner = async(req,res,next)=>{
  // for changing the Status in database
  const changePaymentstatus =(orderId)=>{
     return new Promise((resolve,reject)=>{
+        console.log( " this is User Id ",orderId);
         OrderModel.updateOne({_id: new mongoose.Types.ObjectId(orderId)},{
-                $set:{status:'placed'}
+                $set:{Status:'placed'}
             }).then((response)=>{
                 resolve()
             }).catch((err)=>{

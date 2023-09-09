@@ -1,7 +1,7 @@
 <!-- Dashboard -->
 <%- include('../layouts/Admin/header.ejs') %><!-- Admin Header -->
-    <%- include('../partial/admin_header.ejs') %><!-- admin navbar -->
-        <%- include('../partial/admin_side.ejs') %><!-- Admin Side Bar -->
+    <%- include('../partial/admin_header.ejs',{AdminData:Data}) %><!-- admin navbar -->
+        <%- include('../partial/admin_side.ejs',{isadmin:Isadmin}) %><!-- Admin Side Bar -->
             <div class="clearfix"></div>
 
             <div class="content-wrapper">
@@ -13,7 +13,7 @@
                             <div class="row row-group m-0">
                                 <div class="col-12 col-lg-6 col-xl-3 border-light">
                                     <div class="card-body">
-                                        <h5 class="text-white mb-0">9526 <span class="float-right"><i
+                                        <h5 class="text-white mb-0"><%=totalorder%> <span class="float-right"><i
                                                     class="fa fa-shopping-cart"></i></span></h5>
                                         <div class="progress my-3" style="height:3px;">
                                             <div class="progress-bar" style="width:55%"></div>
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="col-12 col-lg-6 col-xl-3 border-light">
                                     <div class="card-body">
-                                        <h5 class="text-white mb-0">8323 <span class="float-right"><i
+                                        <h5 class="text-white mb-0"><%=totalRevenueAmount%> <span class="float-right"><i
                                                     class="fa fa-usd"></i></span></h5>
                                         <div class="progress my-3" style="height:3px;">
                                             <div class="progress-bar" style="width:55%"></div>
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="col-12 col-lg-6 col-xl-3 border-light">
                                     <div class="card-body">
-                                        <h5 class="text-white mb-0">6200 <span class="float-right"><i
+                                        <h5 class="text-white mb-0"><%=Vistors%> <span class="float-right"><i
                                                     class="fa fa-eye"></i></span></h5>
                                         <div class="progress my-3" style="height:3px;">
                                             <div class="progress-bar" style="width:55%"></div>
@@ -180,43 +180,45 @@
                         <div class="col-12 col-lg-12">
                             <div class="card">
                                 <div class="card-header">Recent Order Tables
-                                    <div class="card-action">
-                                        <div class="dropdown">
-                                            <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                                data-toggle="dropdown">
-                                                <i class="icon-options"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="javascript:void();">Action</a>
-                                                <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                                <a class="dropdown-item" href="javascript:void();">Something else
-                                                    here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="javascript:void();">Separated link</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table align-items-center table-flush table-borderless">
                                         <thead>
                                             <tr>
-                                                <th>Product</th>
-                                                <th>Photo</th>
-                                                <th>Product ID</th>
+                                                <th>Address1</th>
+                                                <th>Address2</th>
+                                                <th>Contact</th>
+                                                <th>City</th>
+                                                <th>Zip_code</th>
+                                                <th>State</th>
+                                                <th>Country</th>
                                                 <th>Amount</th>
                                                 <th>Date</th>
-                                                <th>Shipping</th>
+                                                <th>Payment_Method</th>
+                                                <th>UserId</th>
+                                                <th>Status</th>
+                                                <th> View Products</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <%  for(X of  data){ %>
                                             <tr>
-                                                <td>Iphone 5</td>
-                                                <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                        alt="product img"></td>
-                                                <td>#9405822</td>
-                                                <td>$ 1250.00</td>
-                                                <td>03 Aug 2017</td>
+                                                <td><%=X.ShippingAddress1%></td>
+                                                <td><%=X.ShippingAddress2%></td>
+                                                <td><%=X.contact%></td>
+                                                <td><%=X.City%></td>
+                                                <td><%=X.Zip_code%></td>
+                                                <td><%=X.State%></td>
+                                                <td><%=X.Country%></td>
+                                                <td>$ <%=X.TotalAmount%></td>
+                                                <td><%=X.dateCreated.getDate()%>,<%=getMonthName(X.dateCreated.getMonth()) %> ,<%= X.dateCreated.getFullYear() %></td>
+                                                <td><%=X.Payment_Method%></td>
+                                                <td><%=X.UserId%></td>
+                                            
+                                            
+                                                <td> <a href="/admin/Update_status/<%=X._id%>" class="btn btn-success"><%=X.Status%></a></td>
+                                                <td><a href="/admin/View_product/<%=X._id%>" class="btn btn-primary">View Product</a></td>
                                                 <td>
                                                     <div class="progress shadow" style="height: 3px;">
                                                         <div class="progress-bar" role="progressbar" style="width: 90%">
@@ -224,82 +226,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-
-                                            <tr>
-                                                <td>Earphone GL</td>
-                                                <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                        alt="product img"></td>
-                                                <td>#9405820</td>
-                                                <td>$ 1500.00</td>
-                                                <td>03 Aug 2017</td>
-                                                <td>
-                                                    <div class="progress shadow" style="height: 3px;">
-                                                        <div class="progress-bar" role="progressbar" style="width: 60%">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>HD Hand Camera</td>
-                                                <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                        alt="product img"></td>
-                                                <td>#9405830</td>
-                                                <td>$ 1400.00</td>
-                                                <td>03 Aug 2017</td>
-                                                <td>
-                                                    <div class="progress shadow" style="height: 3px;">
-                                                        <div class="progress-bar" role="progressbar" style="width: 70%">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Clasic Shoes</td>
-                                                <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                        alt="product img"></td>
-                                                <td>#9405825</td>
-                                                <td>$ 1200.00</td>
-                                                <td>03 Aug 2017</td>
-                                                <td>
-                                                    <div class="progress shadow" style="height: 3px;">
-                                                        <div class="progress-bar" role="progressbar"
-                                                            style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Hand Watch</td>
-                                                <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                        alt="product img"></td>
-                                                <td>#9405840</td>
-                                                <td>$ 1800.00</td>
-                                                <td>03 Aug 2017</td>
-                                                <td>
-                                                    <div class="progress shadow" style="height: 3px;">
-                                                        <div class="progress-bar" role="progressbar" style="width: 40%">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Clasic Shoes</td>
-                                                <td><img src="https://via.placeholder.com/110x110" class="product-img"
-                                                        alt="product img"></td>
-                                                <td>#9405825</td>
-                                                <td>$ 1200.00</td>
-                                                <td>03 Aug 2017</td>
-                                                <td>
-                                                    <div class="progress shadow" style="height: 3px;">
-                                                        <div class="progress-bar" role="progressbar"
-                                                            style="width: 100%"></div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
+                                            <%}%>
                                         </tbody>
                                     </table>
                                 </div>

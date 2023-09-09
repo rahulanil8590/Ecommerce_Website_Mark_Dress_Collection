@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 // get the Controller 
+const isAdmin = require('../middleware/isadmin');
 let adminController = require('../Controller/adminController');
 const HomePageSliderController =require('../Controller/HomePageSlider');
 const BannerController = require('../Controller/BannerController');
@@ -8,31 +9,45 @@ const CategoryController = require('../Controller/CategoryController');
 const ProductController = require('../Controller/ProductController');
 const BlogController = require('../Controller/BlogController');
 const AboutController = require('../Controller/AboutController');
+const DashBoardController =require('../Controller/DashboardController');
+
 
 /* GET Admin listing. */
-router.get('/', function(req, res, next) {
+router.get('/',isAdmin.is_Login, DashBoardController.LoadDashboard)
+router.get('/Update_status/:id',isAdmin.is_Login,DashBoardController.UpdateOrderShipped);
+router.get('/View_product/:id',isAdmin.is_Login,DashBoardController.getOrderProducts);
+  
+ // for login 
+ router.get('/login',adminController.LoadLogin);
+// Post Request
+ router.post('/login',adminController.VerifyLogin);
+ // for reset Password
+ router.get('/reset-password',adminController.LoadResetPassword);
+// Post Request
+router.post('/reset-password',adminController.Verify_mail_Reset_password)
+router.get('/forget_password/:id',adminController.loadforgetpassword);
+router.post('/forget_password/:id',adminController.Updateforgetpassword);
+router.get('/logout',adminController.adminlogout);
 
-  res.send('respond with a resource');
-});
 // Slider Section 
 // get Request
-router.get('/display_slider',HomePageSliderController.DisplaySlider);
-router.get('/add_slider',HomePageSliderController.Slider);
+router.get('/display_slider',isAdmin.is_Login,HomePageSliderController.DisplaySlider);
+router.get('/add_slider',isAdmin.is_Login,HomePageSliderController.Slider);
 router.get('/edit_Slider/:id', HomePageSliderController.EditSlider);
 router.get('/delete_Slider/:id',HomePageSliderController.deleteSlider);
 // Post Request
-router.post('/add_slider',HomePageSliderController. addSliderImageSavingFile,HomePageSliderController.addSlider);
+router.post('/add_slider',isAdmin.is_Login,HomePageSliderController. addSliderImageSavingFile,HomePageSliderController.addSlider);
 router.post('/edit_Slider/:id', HomePageSliderController.addSliderImageSavingFile,HomePageSliderController.EditedSlider);
 
 //Slider Section end
 //--------Banner --------//
 // get Request
-router.get('/display_Banner', BannerController.Load_Display_Banner);
-router.get('/add_Banner', BannerController.addBanner);
-router.get('/edit_Banner/:id', BannerController.editBanner);
-router.get('/delete_Banner',BannerController.DeleteBanner)
+router.get('/display_Banner',isAdmin.is_Login, BannerController.Load_Display_Banner);
+router.get('/add_Banner',isAdmin.is_Login, BannerController.addBanner);
+router.get('/edit_Banner/:id',isAdmin.is_Login ,BannerController.editBanner);
+router.get('/delete_Banner/:id',BannerController.DeleteBanner)
 // Post Request
-router.post('/add_Banner' ,BannerController.addBannerImageSavingFile, BannerController.add_to_mongodb);
+router.post('/add_Banner' ,isAdmin.is_Login,BannerController.addBannerImageSavingFile, BannerController.add_to_mongodb);
 router.post('/edit_Banner/:id',BannerController.addBannerImageSavingFile,BannerController.UpdateBanner);
 //-----Category ------//
 

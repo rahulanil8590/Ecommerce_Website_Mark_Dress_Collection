@@ -2,11 +2,15 @@ const { default: mongoose } = require('mongoose');
 const BannerModel = require('../models/BannerModel')// Adjust the path accordingly to your Banner model
 const Banner_multer =require('../multer/Banner_multer');// Adjust the destination folder as needed to Banner
 const { response } = require('express');
+const CategoryModel = require('../models/CategoryModel');
+
 //-----Banner-------//
 // Render the Form of Adding Banner Data
-const addBanner = (req,res,next) =>{
+const addBanner = async(req,res,next) =>{
     try{
-        res.render('admin/load_add_Banner')
+        const isadmin =  req.session.admin_id;
+        const Category = await CategoryModel.find({}).lean();
+        res.render('admin/load_add_Banner',{Category,title:'Banner',Isadmin:isadmin})
     }catch(error){
         console.log(error.message);
     }
@@ -17,11 +21,13 @@ const addBanner = (req,res,next) =>{
   const add_to_mongodb = async(req,res,next)=>{
     
     try{
+        const isadmin =  req.session.admin_id;
        // Create a new Banner instance
        const newBanner = new BannerModel({
         Sub_header: req.body.subHeader, // Adjust this to match your model schema
         Main_header: req.body.mainHeader,
-        Image_url: req.file.filename // Assuming you store the image path in your model
+        Image_url: req.file.filename,// Assuming you store the image path in your model
+        Category:req.body.category
     });
 
     // Save the Slider to the database
@@ -35,8 +41,9 @@ const addBanner = (req,res,next) =>{
   //Diplay the Detailed Table of Banner
   const Load_Display_Banner = async(req,res,next) =>{
     try{
+        const isadmin =  req.session.admin_id; 
      const Banner = await BannerModel.find({}).lean();
-        res.render('admin/load_Banner_details',{Data:Banner,title:'Banner'});
+        res.render('admin/load_Banner_details',{Data:Banner,title:'Banner',Isadmin:isadmin});
        
     }catch(error){
         console.log(error.message);
@@ -44,10 +51,11 @@ const addBanner = (req,res,next) =>{
   }
   // Editing the Banner Section
   const editBanner = async(req,res,next) =>{
+    const isadmin =  req.session.admin_id;
     try{
         let Banner = await BannerModel.findOne({_id:new mongoose.Types.ObjectId(req.params.id)}).lean();
         console.log(Banner);
-        res.render('admin/Edit_banner',{Banner,title:'Edit_Banner'});
+        res.render('admin/Edit_banner',{Banner,title:'Edit_Banner',Isadmin:isadmin});
 
     }catch(error){
 
@@ -57,6 +65,7 @@ const addBanner = (req,res,next) =>{
   }
   // Update the Banner Section
   const UpdateBanner = async(req,res,next)=>{
+    const isadmin =  req.session.admin_id;
     try{
         if(req.file){
             image = req.file.filename

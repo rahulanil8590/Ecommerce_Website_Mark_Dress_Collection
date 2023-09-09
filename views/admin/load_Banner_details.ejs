@@ -1,7 +1,7 @@
 <!-- View Banner -->
 <%- include('../layouts/Admin/header.ejs') %><!-- Admin Header -->
   <%- include('../partial/admin_header.ejs') %><!-- admin navbar -->
-    <%- include('../partial/admin_side.ejs') %><!-- Admin Side Bar -->
+  <%- include('../partial/admin_side.ejs',{isadmin:Isadmin}) %><!-- Admin Side Bar -->
       <div class="clearfix"></div>
 
       <div class="content-wrapper">
@@ -26,6 +26,7 @@
                                       <th scope="col">Sub_header</th>
                                       <th scope="col">Main_header</th>
                                       <th scope="col">Image</th>
+                                      <th scope="col">Category</th>
                                       <th scope="col">Option</th>
 
                                     </tr>
@@ -42,6 +43,9 @@
                                         </td>
                                         <td><img style="width: 100px; height:100px ;"
                                             src="/images/Banner/<%=item.Image_url%>" alt="Slider_Image"></td>
+                                            <td>
+                                              <%=item.Category%>
+                                            </td>
                                         <td><a href="/admin/edit_Banner/<%=item._id%>" class="btn  btn-warning">edit</a>
                                         </td>
                                         <td><a href="/admin/delete_Banner/<%=item._id%>" class="btn  btn-danger"

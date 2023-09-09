@@ -9,6 +9,7 @@ const BlogController = require('../Controller/BlogController');
 const AboutController = require('../Controller/AboutController');
 const ContactController =require('../Controller/ContactController');
 const OrderController = require('../Controller/OrderController');
+const SearchController = require('../Controller/SearchController')
 // for auth middleware 
 const auth = require('../middleware/auth')
 
@@ -63,6 +64,9 @@ router.post('/place-order',OrderController.Orderplacing);
 router.get('/success-banner',OrderController.LoadSuccesBanner);
 router.post('/verify-payment',OrderController.verifyPayment)
 router.get('/Order_Page',OrderController.loadOrderPage)
-
+// For Search Product 
+router.get('/search',SearchController.Searchproduct);
+// for Banner Category Product 
+router.get('/shop/:id',auth.is_Login,SearchController.SearchBannerCategory)
 
 module.exports = router;

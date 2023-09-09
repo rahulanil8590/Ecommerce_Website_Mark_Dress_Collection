@@ -1,7 +1,7 @@
 <!-- Insert Banner -->
 <%- include('../layouts/Admin/header.ejs') %><!-- Admin Header -->
 <%- include('../partial/admin_header.ejs') %><!-- admin navbar -->
-<%- include('../partial/admin_side.ejs') %><!-- Admin Side Bar -->
+<%- include('../partial/admin_side.ejs',{isadmin:Isadmin}) %><!-- Admin Side Bar -->
     <div class="clearfix"></div>
 
     <div class="content-wrapper">
@@ -30,7 +30,20 @@
                                     <input type="file" name="ImageFile" class="form-control form-control-rounded "   id="ImageFile">
 
                                 </div>
+                                <div class="form-group">
+                                    <label for="input-10">Category</label>
+                                    <select id="select-1" name="category" class="form-control form-control-rounded"
+                                        aria-label="Default select example">
+                                        <option selected>Select the Category</option>
+                                        <% Category.forEach(function(item) { %>
+                                            <option value="<%=item._id%>">
+                                                <%=item.name%>
+                                                    </item>
+                                            </option>
 
+                                            <% }) %>
+                                    </select>
+                                </div>
 
 
                                 <div class="form-group">

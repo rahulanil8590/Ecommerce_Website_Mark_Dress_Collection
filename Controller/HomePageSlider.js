@@ -6,8 +6,8 @@ const { response } = require('express');
 let Slider = (req,res,next) =>{
    
     try{
-        
-        res.render('admin/add_slider')
+        const isadmin =  req.session.admin_id;
+        res.render('admin/add_slider',{Isadin:isadmin})
     }catch(error){
         console.log(error.message);
     }
@@ -16,6 +16,7 @@ const addSliderImageSavingFile = Slider_multer.single('ImageFile');
 
 const addSlider = async (req, res, next) => {
     try {
+        const isadmin =  req.session.admin_id;
         console.log(req.body);
 
         // Create a new Slider instance

@@ -13,6 +13,11 @@ let Banner_model_Detail = new mongoose.Schema({
     Image_url:{
         type:String,
         require:true
+    },
+    Category:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"category",
+        require:true
     }
 });// creating All structure Model
  const BannerModel =  mongoose.model('bannermodel',Banner_model_Detail); // creating model
