@@ -4,9 +4,14 @@ const WishlistSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'usermodel'
     },
+    count:{
+        type:Number,
+        default:0
+    },
     Products:[
         {
             item:mongoose.Schema.Types.ObjectId,
+            
             
         }
     ]   

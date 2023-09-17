@@ -7,6 +7,7 @@ const UserCart = require('../models/UserCart');
 const mongoose = require('mongoose');
 const User_multer = require('../multer/User_image_multer');
 const ProductModel =require('../models/ProductModel');
+const OrderModel = require('../models/OrderModel');
 // for send mail 
 const sendVerifyMail =(name,email,UserId)=>{
     try {
@@ -303,8 +304,10 @@ const sendresetVerify =(name,email,token)=>{
          const UserData = await UserModel.findOne({_id:new mongoose.Types.ObjectId(UserId)});
          console.log(UserData);
          // for Featured Image 
-         const FeaturedProduct = await ProductModel.find({isFeatured:'true'}).limit(2)
-    console.log(FeaturedProduct);
+         const FeaturedProduct = await ProductModel.find({isFeatured:'true'}).limit(2);
+         // for Order LIST 
+         const Oderlist = await OrderModel.fi
+         console.log(FeaturedProduct);
         res.render('users/User_account',
         {
         title:'My Account',

@@ -43,7 +43,10 @@ router.post('/remove-cart',UserCartController.RemoveCart);
 // for FEtch the Product abd display the shop page to All Product
 router.get('/Shop',auth.is_Login,ProductController.LoadShop);
 // for add and fetch the wishlist
-// 
+router.post('/add-to-wishlist/:id',auth.is_Login,WishlistController.Wishlist);
+router.get('/Wishlist',auth.is_Login,WishlistController.LoadWishList);
+router.get('/Delete_Wishlist_Product/:id',WishlistController.DeletProduct)
+
 // For Blog Page
 router.get('/blog',auth.is_Login,BlogController.LoadBlog);
 router.get('/blog_detail/:id',auth.is_Login,BlogController.LoadBlogdetailed);
@@ -62,8 +65,9 @@ router.get('/load_More',auth.is_Login,UserController.load_More);
 router.get('/order',OrderController.Load_Order_Form);
 router.post('/place-order',OrderController.Orderplacing);
 router.get('/success-banner',OrderController.LoadSuccesBanner);
-router.post('/verify-payment',OrderController.verifyPayment)
-router.get('/Order_Page',OrderController.loadOrderPage)
+router.post('/verify-payment',OrderController.verifyPayment);
+router.get('/Order_Page',OrderController.loadOrderPage);
+router.get('/Ordered_product/:id',auth.is_Login,OrderController.Load_Ordered_Product);
 // For Search Product 
 router.get('/search',SearchController.Searchproduct);
 // for Banner Category Product 

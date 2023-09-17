@@ -91,12 +91,24 @@ const Insert_to_product_mon_db = async (req, res, next) => {
 
         }
         cartcount = count
-        ProductDetails =await ProductModel.findById(req.params.id);
-        const  categoryId = ProductDetails.category;
-        const category=  await CategoryModel.find({_id:categoryId})
-        console.log(category);
+        ProductDetails =await ProductModel.findById(req.params.id).populate('category');
+        const  categoryname = ProductDetails.category.name;
+        // For related Product 
+        // Find the category document by name
+const category = await CategoryModel.findOne({ name: categoryname });
+
+// If the category is found, find related products
+const relatedProducts = await ProductModel.find({ 'category': category._id });
+if (category) {
+ 
+
+  console.log('Related Products:', relatedProducts);
+} else {
+  console.log('Category not found');
+}
+        
          const sub_category = ProductDetails.product_Category;
-        console.log(category);
+       
         console.log(sub_category);
         const CartItem = await UserCart.aggregate([
             {
@@ -133,7 +145,13 @@ const Insert_to_product_mon_db = async (req, res, next) => {
 
          ]) 
 
-        res.render('users/Product_Details',{ProductDetails,title:'Product_details',user:UserId,cartcount,CartItem:CartItem});
+        res.render('users/Product_Details',{
+        ProductDetails,
+         title:'Product_details'
+        ,user:UserId
+        ,cartcount
+        ,CartItem:CartItem,
+          relatedproducts:relatedProducts              });
     } catch (error) {
         console.log(error.message);
     }

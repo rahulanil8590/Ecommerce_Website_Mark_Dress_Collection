@@ -1,0 +1,70 @@
+<!-- include the header section of Html of Users -->
+<%- include('../layouts/Users/header.ejs') %>
+    <!-- include the navbar section of Users -->
+    <%- include('../partial/User_page_header.ejs',{user:User,CartCount:cartcount}) %>
+        <!-- product -->
+        <section class="bg0 p-t-23 p-b-140">
+            <div class="container">
+                <div class="p-b-10">
+                    <h3 class="ltext-103 cl5">
+                        WishList
+                    </h3>
+                </div>
+                <div class="row isotope-grid">
+                    <% products.forEach(function(item){ %>
+                        <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+
+                            <!-- Block2 -->
+                            <div class="block2">
+                                <div class="block2-pic hov-img0">
+
+
+                                    <img src="/images/Product_image/<%=item.product.images[0]%>" alt="IMG-PRODUCT">
+
+                                    <a href="#"
+                                        class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"
+                                        data-product-id="<%=item.product._id%>">
+                                        Quick View
+                                    </a>
+                                </div>
+
+                                <div class="block2-txt flex-w flex-t p-t-14">
+                                    <div class="block2-txt-child1 flex-col-l ">
+                                        <a href="/Product_details/<%=item.product._id%>"
+                                            class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                            <%=item.product.name%>
+                                        </a>
+
+                                        <span class="stext-105 cl3">
+                                            $<%=item.product.price%>
+                                        </span>
+                                    </div>
+
+                                    <div class="block2-txt-child2 flex-r p-t-3">
+                                        <a href="/Delete_Wishlist_Product/<%=item.product._id%>"
+                                            class="btn dis-block pos-relative ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                                <path
+                                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <%})%>
+                </div>
+
+
+
+
+            </div>
+        </section>
+        <!-- include the footer section -->
+        <%- include('../partial/user_footer.ejs') %>
+            <!-- include the footer section of html of User-->
+            <%- include('../layouts/Users/footer.ejs') %>

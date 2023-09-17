@@ -1,6 +1,6 @@
  const { default: mongoose } = require('mongoose');
 const UserCart = require('../models/UserCart');
-  // for quantity increase the price will be increase
+  // for Total Amount Product in Cart 
   const totalProductPrice =async (userId,Size,Color)=>{
     try {
         const UserId = userId;

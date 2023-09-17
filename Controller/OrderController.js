@@ -4,6 +4,7 @@ const UserCart = require('../models/UserCart');
 const mongoose = require('mongoose');
 const Razorpay = require('razorpay'); // For requiring the RaZorpay
 
+
 // for Ingrating Razorpay
 var instance = new Razorpay({
   key_id: 'rzp_test_r2EEddYAuPS5ln',
@@ -346,14 +347,138 @@ const  loadOrderPage = async(req,res,next)=>{
          // for fetching All Order Details 
          const OrderDetails = await OrderModel.find({})
          console.log(OrderDetails);
+         // for get the month in letter
+         function getMonthName(month) {
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return monthNames[month];
+        }
+        // for fetch total Amount 
+           
+  
+
+
+    // Access the total value from the aggregation result
+   
+  
         res.render('users/Order_Page',{
             title:'Order',
             User:UserId,
             cartcount,
             CartItems:CartItem,
-            Data:OrderDetails
+            Data:OrderDetails,
+            getMonthName:getMonthName,
+            
         })
         
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+// for fetch the product in Order List 
+const Load_Ordered_Product = async(req,res,next)=>{
+    try {
+        const UserId = req.session.user_id;
+        console.log(UserId);
+        // for count of Product in Cart
+        let cartcount =null;
+        let count =0
+        const Cart = await UserCart.findOne({UserId:UserId})// for fetch the count of Cart
+        // when checking the User have Cart
+        if(Cart){
+          count = Cart.Products.length
+          console.log(count);
+
+        }
+        cartcount = count
+    // for fetch the  shopping cart fetch to modal
+        const CartItem = await UserCart.aggregate([
+            {
+                $match:{
+                    UserId : new mongoose.Types.ObjectId(UserId) 
+                }
+            },
+            {
+                $unwind:'$Products'
+            },
+            {
+                $project:{
+                    item:"$Products.item",
+                    Size:"$Products.Size",
+                    color:"$Products.color",
+                    quantity:"$Products.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:'productmodels',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                  }
+            },
+            {
+                
+                    $project:{
+                        item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+                    }
+                
+            }
+
+         ]);
+        
+         // for get the month in letter
+         function getMonthName(month) {
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return monthNames[month];
+        }
+        
+           
+       const Order_List_id = req.params.id;
+       const OrderItem = await OrderModel.aggregate([
+        {
+            $match:{_id: new mongoose.Types.ObjectId(Order_List_id)}
+        },
+        {
+            $unwind : '$products'
+        }
+        ,{
+            $project:{
+                item :"$products.item",
+                quantity:'$products.quantity',
+                Size:"$products.Size",
+                color:"$products.color"
+            }
+        },{
+            $lookup :{
+                from :'productmodels',
+                localField:'item',
+                foreignField:'_id',
+                as: 'product'
+
+            }
+        },
+        {
+            $project:{
+                item:1,quantity:1,Size:1,color:1,product:{$arrayElemAt:['$product',0]}
+            }
+        }
+        
+    ])
+    console.log(OrderItem);
+    // for fetching order details
+    const OrderDetails = await OrderModel.find({_id:Order_List_id});
+    console.log(OrderDetails);
+
+    res.render('users/Ordered_Products_page',
+    {
+    title:'Order_product',
+    User:UserId,
+     cartcount,
+    CartItems:CartItem,
+    OrderItem,
+    getMonthName:getMonthName,
+    OrderDetails:OrderDetails
+});
     } catch (error) {
         console.log(error.message);
     }
@@ -363,5 +488,6 @@ module.exports={
     Orderplacing,
     LoadSuccesBanner,
     verifyPayment,
-    loadOrderPage
+    loadOrderPage,
+    Load_Ordered_Product
 }
